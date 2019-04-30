@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class HookMovement : MonoBehaviour {
 
-    public GameObject hookPrefab;
+    //public GameObject hookPrefab;
     HookScript hookScript;
     public GameObject player;
+    public Rigidbody playerBody;
+    
     public float speed;
     public float step;
 
-    public void Start()
+    public void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        step = speed * Time.deltaTime;
+        playerBody = player.GetComponent<Rigidbody>();
+        speed = 6.5f;
+        
     }
 
     public void Update()
     {
-        hookPrefab = GameObject.Find("Hook(Clone)");
-        hookScript = hookPrefab.GetComponent<HookScript>();
+        //hookPrefab = GameObject.Find("Hook(Clone)");
+        hookScript = GetComponent<HookScript>();
 
-        if(hookScript.isHooked == true)
+        step = speed * Time.deltaTime;
+
+        if (hookScript.isHooked == true)
         {
-            player.transform.position = Vector3.MoveTowards(transform.position, hookPrefab.transform.position, step);
+            
+         
+           player.transform.position = Vector3.MoveTowards(player.transform.position, this.transform.position, step);
             
         }
     }
